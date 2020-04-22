@@ -57,6 +57,9 @@ export default class AbstractChart {
   isNestedArrayOfArrays = false
   isNestedArrayOfObjects = false
 
+  // Point
+  point = { color: null, radius: 3, fillOpacity: 1, strokeWidth: 0, strokeColor: null }
+
   /**
    * Instantiate a new abstract chart.
    * This isn't meant to be called directly, it is called by the chart implementations.
@@ -80,6 +83,7 @@ export default class AbstractChart {
    * @param {Function} [tooltipFunction] function that receives a data object and returns the string displayed as tooltip.
    * @param {Array} [legend] names of the sub-arrays of data, used as legend labels.
    * @param {String | Object} [legendTarget] DOM node to which the legend should be mounted.
+   * @param {Object} [point={ color: null, radius: 3, fillOpacity: 1, strokeWidth: 0, strokeColor: null }] point object specifying color, radius, fillOpacity, strokeWidth and strokeColor.
    */
   constructor ({
     data,
@@ -101,6 +105,7 @@ export default class AbstractChart {
     tooltipFunction,
     legend,
     legendTarget,
+    point,
     ...custom
   }) {
     // check that at least some data was specified
@@ -115,6 +120,7 @@ export default class AbstractChart {
     this.markers = markers ?? this.markers
     this.legend = legend ?? this.legend
     this.legendTarget = legendTarget ?? this.legendTarget
+    this.point = point ?? this.point
 
     // convert string accessors to functions if necessary
     this.xAccessor = typeof xAccessor === 'string'

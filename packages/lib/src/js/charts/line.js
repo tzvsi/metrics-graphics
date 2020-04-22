@@ -37,7 +37,11 @@ export default class LineChart extends AbstractChart {
         yAccessor: this.yAccessor,
         xScale: this.xScale,
         yScale: this.yScale,
-        radius: 3
+        radius: this.point.radius || 3,
+        color: this.point.color || this.colors[index],
+        fillOpacity: this.point.fillOpacity,
+        strokeWidth: this.point.strokeWidth,
+        strokeColor: this.point.strokeColor
       })
       line.mountTo(this.container)
     })
@@ -115,10 +119,13 @@ export default class LineChart extends AbstractChart {
 
         points.forEach(point => {
           const index = point.arrayIndex || 0
-          const color = this.colors[index]
+          const color = this.point.color || this.colors[index]
+          const fillOpacity = this.point.fillOpacity
+          const strokeWidth = this.point.strokeWidth
+          const strokeColor = this.point.strokeColor
 
           // set hover point
-          this.delaunayPoints[index].update({ data: point, color })
+          this.delaunayPoints[index].update({ data: point, color, fillOpacity, strokeWidth, strokeColor })
           if (!this.delaunayPoints[index].shapeObject) {
             this.delaunayPoints[index].mountTo(this.container)
           }
