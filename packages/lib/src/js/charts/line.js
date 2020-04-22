@@ -210,4 +210,14 @@ export default class LineChart extends AbstractChart {
       this.yAxis.tickFormat = constants.axisFormat.number
     }
   }
+
+  /**
+   * Public interface for selecting delaunay point by index
+   *
+   * @param {*} index array index
+   * @returns {void}
+   */
+  setPoint (index) {
+    this.delaunay.setPoint(index)
+  }
 }
