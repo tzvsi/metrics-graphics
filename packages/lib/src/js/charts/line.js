@@ -6,6 +6,7 @@ import constants from '../misc/constants'
 import Delaunay from '../components/delaunay'
 import Point from '../components/point'
 import Legend from '../components/legend'
+import { callHook } from '../common/hooks'
 
 export default class LineChart extends AbstractChart {
   delaunay = null
@@ -24,6 +25,8 @@ export default class LineChart extends AbstractChart {
 
     // compute lines and delaunay points
     this.data.forEach((lineData, index) => {
+      callHook('line.before_each_series', [lineData, args])
+
       const line = new Line({
         data: lineData,
         xAccessor: this.xAccessor,
@@ -142,6 +145,7 @@ export default class LineChart extends AbstractChart {
       onLeave: () => {
         this.delaunayPoints.forEach(dp => dp.hide())
         if (this.tooltip) this.tooltip.hide()
+        callHook('line.after_rollover', this)
       },
       ...voronoi
     })
@@ -156,6 +160,7 @@ export default class LineChart extends AbstractChart {
       })
       legend.mountTo(this.legendTarget)
     }
+    callHook('line.after_init', this)
   }
 
   /**
@@ -204,5 +209,15 @@ export default class LineChart extends AbstractChart {
     } else if (Number(yValue) === yValue) {
       this.yAxis.tickFormat = constants.axisFormat.number
     }
+  }
+
+  /**
+   * Public interface for selecting delaunay point by index
+   *
+   * @param {*} index array index
+   * @returns {void}
+   */
+  setPoint (index) {
+    this.delaunay.setPoint(index)
   }
 }

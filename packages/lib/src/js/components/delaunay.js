@@ -29,7 +29,7 @@ export default class Delaunay {
    * @param {Boolean} [nested=false] whether or not the points array contains sub-arrays.
    * @param {Boolean} [aggregate=false] if multiple points have the same x value and should be shown together, aggregate can be set to true.
    */
-  constructor ({ points = [], xAccessor, yAccessor, xScale, yScale, onPoint, onLeave, onClick, nested, aggregate }) {
+  constructor ({ points = [], xAccessor, yAccessor, xScale, yScale, setPoint, onPoint, onLeave, onClick, nested, aggregate }) {
     // Case 1: There is only one dimension of points (e.g. one line).
     // In this case, only use the x-distance by setting all y values to zero.
     // if the points are one-dimensional, treat them like that.
@@ -65,6 +65,18 @@ export default class Delaunay {
     this.onClick = onClick ?? this.onClick
     this.xAccessor = xAccessor
     this.aggregate = aggregate ?? this.aggregate
+  }
+
+  /**
+   * Set current point by index position
+   *
+   * @param {Number} index array index position
+   * @returns {void}
+   */
+  setPoint (index) {
+    if (index <= this.points.length - 1) {
+      this.onPoint([this.points[index]])
+    }
   }
 
   /**

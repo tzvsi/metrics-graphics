@@ -1,4 +1,5 @@
 import { line, curveCatmullRom } from 'd3-shape'
+import { callHook } from '../common/hooks'
 
 export default class Line {
   lineObject = null
@@ -35,6 +36,8 @@ export default class Line {
       .x(d => xScale.scaleObject(xAccessor(d)))
       .y(d => yScale.scaleObject(yAccessor(d)))
       .curve(curve ?? curveCatmullRom)
+
+    callHook('line.after_each_series', [this.data, this.lineObject])
   }
 
   mountTo (svg) {
