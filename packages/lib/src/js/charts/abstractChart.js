@@ -4,6 +4,7 @@ import Scale from '../components/scale'
 import Axis from '../components/axis'
 import Tooltip from '../components/tooltip'
 import { schemeCategory10 } from 'd3-scale-chromatic'
+import { addHook, callHook } from '../common/hooks'
 
 /**
  * This class implements all behavior shared by all chart types.
@@ -108,6 +109,8 @@ export default class AbstractChart {
     point,
     ...custom
   }) {
+    callHook('global.before_init', this)
+
     // check that at least some data was specified
     if (!data || !data.length) return console.error('no data specified')
 
@@ -319,6 +322,15 @@ export default class AbstractChart {
    * @returns {void}
    */
   computeYAxisType () {}
+
+  /**
+   * Public method for registering hooks for all chart implementations
+   * @param {*} name name of event
+   * @param {*} func function callback
+   * @param {*} context namespace of event
+   * @returns {void}
+   */
+  addHook (name, func, context) { addHook(name, func, context) }
 
   get top () { return this.margin.top }
   get left () { return this.margin.left }
