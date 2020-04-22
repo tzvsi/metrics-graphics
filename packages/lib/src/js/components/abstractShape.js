@@ -6,6 +6,7 @@ export default class AbstractShape {
   color = null
   fillOpacity = 1
   strokeWidth = 0
+  strokeColor = null
 
   /**
    * Create a new abstract shape.
@@ -18,13 +19,14 @@ export default class AbstractShape {
    * @param {Number} [fillOpacity=1] opacity of the shape fill.
    * @param {Number} [strokeWidth=0] width of the stroke around the shape.
    */
-  constructor ({ data, xScale, yScale, color, fillOpacity, strokeWidth }) {
+  constructor ({ data, xScale, yScale, color, fillOpacity, strokeWidth, strokeColor }) {
     this.data = data
     this.xScale = xScale
     this.yScale = yScale
     this.color = color
     this.fillOpacity = fillOpacity
     this.strokeWidth = strokeWidth
+    this.strokeColor = strokeColor
   }
 
   /**
@@ -60,9 +62,10 @@ export default class AbstractShape {
    * @param {String} color new color of the shape.
    * @param {Number} fillOpacity new fill opacity of the shape.
    * @param {Number} strokeWidth new stroke width of the shape.
+   * @param {String} strokeColor new stroke color of the shape.
    * @returns {void}
    */
-  updateGeneric ({ color, fillOpacity, strokeWidth }) {
+  updateGeneric ({ color, fillOpacity, strokeWidth, strokeColor }) {
     if (color) {
       this.color = color
       if (this.shapeObject) this.shapeObject.attr('fill', this.color)
@@ -74,6 +77,10 @@ export default class AbstractShape {
     if (strokeWidth) {
       this.strokeWidth = strokeWidth
       if (this.shapeObject) this.shapeObject.attr('stroke-width', this.strokeWidth)
+    }
+    if (strokeColor) {
+      this.strokeColor = strokeColor
+      if (this.shapeObject) this.shapeObject.attr('stroke', this.strokeColor)
     }
   }
 
